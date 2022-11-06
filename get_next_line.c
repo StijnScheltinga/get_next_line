@@ -6,7 +6,7 @@
 /*   By: stijn <stijn@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:16:31 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/06 22:52:36 by stijn            ###   ########.fr       */
+/*   Updated: 2022/11/06 23:15:17 by stijn            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char *ft_stash(char *buff)
 		stash = ft_strjoin("\0", buff);
 	else
 		stash = ft_strjoin(stash, buff);
-	// printf("stash: %s\n", stash);
+	printf("stash: %s\n", stash);
 	if (!stash)
 		return (stash);
 	while (stash[i])
@@ -92,8 +92,9 @@ char    *get_next_line(int fd)
 	while (bytes_read == nbyte)
 	{
 		bytes_read = read(fd, (void *) buff, nbyte);
+		// if (bytes_read != nbyte)
 		buff[bytes_read] = '\0';
-		// printf("buff: %s\n", buff); 
+		printf("buff: %s\n", buff); 
 		line = ft_stash(buff);
 		if (line != NULL)
 		{
