@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stijn <stijn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 13:32:55 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/04 16:28:54 by stijn            ###   ########.fr       */
+/*   Updated: 2022/11/08 12:47:41 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ size_t	ft_strlen(const char *str)
 	int	i;
 
 	i = 0;
-    if (!str)
-        return(0);
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*join;
 	int		len;
@@ -48,6 +48,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	join[i + j] = '\0';
+	free(s1);
 	return (join);
 }
 
@@ -78,4 +79,23 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	ret[j] = '\0';
 	return (ret);
+}
+
+char	*ft_strdup(char *s)
+{
+	char	*str;
+	int		i;
+
+	i = ft_strlen(s);
+	str = malloc(i + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

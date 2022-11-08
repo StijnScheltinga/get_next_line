@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stijn <stijn@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:16:31 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/06 23:15:17 by stijn            ###   ########.fr       */
+/*   Updated: 2022/11/08 16:24:53 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,89 +20,77 @@ char	*ft_clean(char *stash)
 
 	i = 0;
 	j = 0;
-	while (stash[i])
-	{
-		if (stash[i] == '\n')
-			break ;
+	while (stash[i] != '\n')
 		i++;
-	}
 	i++;
-	while (stash[i])
-	{
+	while (stash[i + j])
 		j++;
-		i++;
-	}
 	new = malloc(sizeof(char) * (j + 1));
 	if (!new)
-		return(NULL);
-	i -= j;
+		return (NULL);
 	j = 0;
-	while(stash[i])
+	while (stash[i + j])
 	{
-		new[j] = stash[i];
-		i++;
+		new[j] = stash[i + j];
 		j++;
 	}
 	new[j] = '\0';
-	return(new);
+	free (stash);
+	return (new);
 }
 
-char *ft_stash(char *buff)
+char	*ft_stash(char *buff, unsigned long end_file)
 {	
 	int			i;
 	char		*line;
 	static char	*stash;
 
 	i = 0;
+	line = NULL;
 	if (stash == NULL)
-		stash = ft_strjoin("\0", buff);
+		stash = ft_strdup(buff);
 	else
 		stash = ft_strjoin(stash, buff);
-	printf("stash: %s\n", stash);
 	if (!stash)
-		return (stash);
+		return (NULL);
+	if (end_file == 0)
+	{
+		line = ft_substr(stash, 0, i + 1);
+		free (stash);
+		return (line);
+	}
 	while (stash[i])
 	{
 		if (stash[i] == '\n')
 		{
 			line = ft_substr(stash, 0, i + 1);
 			stash = ft_clean(stash);
-			return(line);
+			return (line);
 		}
 		i++;
 	}
-	return(NULL);
+	return (line);
 }
 
-char    *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	char    		*buff;
-	size_t  		nbyte;
+	char			buff[BUFFER_SIZE + 1];
 	unsigned long	bytes_read;
 	char			*line;
 
-	nbyte = 10;
-	#ifdef BUFFER_SIZE
-		nbyte = BUFFER_SIZE;
-	#endif
-	bytes_read = nbyte;
-	buff = malloc(sizeof(char) * (nbyte + 1));
-	if (!buff)
-		return(buff);
-	while (bytes_read == nbyte)
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	bytes_read = 1;
+	while (bytes_read != 0)
 	{
-		bytes_read = read(fd, (void *) buff, nbyte);
-		// if (bytes_read != nbyte)
+		bytes_read = read(fd, (void *) buff, BUFFER_SIZE);
+		printf("\nbytes read: %lu", bytes_read);
 		buff[bytes_read] = '\0';
-		printf("buff: %s\n", buff); 
-		line = ft_stash(buff);
+		line = ft_stash(buff, bytes_read);
 		if (line != NULL)
-		{
-			free(buff);
 			return (line);
-		}
 	}
-	return(NULL);
+	return (NULL);
 }
 
 int main()
@@ -112,8 +100,6 @@ int main()
 	fd = open("text.txt", O_RDONLY);
 	// get_next_line(fd);
 	// get_next_line(fd);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	printf("\nprint 1:%s", get_next_line(fd));
+	printf("\nprint 2:%s", get_next_line(fd));
 }
