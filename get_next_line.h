@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 13:27:57 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/08 12:48:01 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:31:58 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(char *s);
+char	*ft_strchr(char *str, char ch);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 13:32:55 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/08 12:47:41 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:45:45 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		join[i] = s1[i];
 		i++;
@@ -48,7 +48,8 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	join[i + j] = '\0';
-	free(s1);
+	if (s1)
+		free(s1);
 	return (join);
 }
 
@@ -81,21 +82,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ret);
 }
 
-char	*ft_strdup(char *s)
+char	*ft_strchr(char *str, char ch)
 {
-	char	*str;
 	int		i;
 
-	i = ft_strlen(s);
-	str = malloc(i + 1);
+	i = 0;
 	if (!str)
 		return (NULL);
-	i = 0;
-	while (s[i])
+	while (str[i] != '\0')
 	{
-		str[i] = s[i];
+		if (str[i] == ch)
+			return ((char *) str + i);
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	if (ch == '\0')
+		return ((char *) str + i);
+	return (NULL);
 }
