@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:16:31 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/14 17:47:11 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:46:39 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ char	*ft_clean(char *stash)
 
 	i = 0;
 	j = 0;
-	while (stash[i] != '\n')
+	while (stash[i] != '\n' && stash[i])
 		i++;
-	i++;
+	if (stash[i] == '\n')
+		i++;
+	if (stash[i] == 0)
+		return (free(stash), NULL);
 	while (stash[i + j])
 		j++;
 	new = malloc(sizeof(char) * (j + 1));
@@ -35,8 +38,7 @@ char	*ft_clean(char *stash)
 		j++;
 	}
 	new[j] = '\0';
-	free (stash);
-	return (new);
+	return (free(stash), new);
 }
 
 char	*ft_line(char *stash)
@@ -51,46 +53,51 @@ char	*ft_line(char *stash)
 	return (line);
 }
 
-char	*get_next_line(int fd)
-{	
-	static char	*stash;
-	char		*buff;
-	int			bytes_read;
-	char		*line;
+char	*ft_find_line(int fd, char	*stash)
+{
+	char	*buff;
+	int		bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buff)
 		return (NULL);
-	buff[BUFFER_SIZE] = 0;
 	bytes_read = 1;
 	while (!ft_strchr(stash, '\n') && bytes_read != 0)
 	{
 		bytes_read = read(fd, buff, BUFFER_SIZE);
+		if (bytes_read == -1 || (bytes_read == 0 && stash == NULL))
+			return (free(buff), free(stash), NULL);
 		buff[bytes_read] = 0;
 		stash = ft_strjoin(stash, buff);
 	}
-	if (stash[0] == 0)
+	free(buff);
+	return (stash);
+}
+
+char	*get_next_line(int fd)
+{	
+	static char	*stash;
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
 		return (NULL);
+	stash = ft_find_line(fd, stash);
+	if (!stash)
+		return (stash);
 	line = ft_line(stash);
 	stash = ft_clean(stash);
-	free (buff);
 	return (line);
 }
 
-int main()
-{
-	int	fd;
+// int main()
+// {
+// 	int	fd;
 
-	fd = open("text.txt", O_RDONLY);
-	printf("print1: |%s|\n", get_next_line(fd));
-	printf("print2: |%s|\n", get_next_line(fd));
-	printf("print3: |%s|\n", get_next_line(fd));
-	printf("print4: |%s|\n", get_next_line(fd));
-	printf("print5: |%s|\n", get_next_line(fd));
-	printf("print6: |%s|\n", get_next_line(fd));
-	// get_next_line(fd);
-	// get_next_line(fd);
-	// get_next_line(fd);
-}
+// 	fd = open("text.txt", O_RDONLY);
+// 	printf("\nprint1: |%s|\n\n", get_next_line(fd));
+// 	printf("\nprint2: |%s|\n\n", get_next_line(fd));
+// 	printf("\nprint3: |%s|\n\n", get_next_line(fd));
+// 	printf("\nprint4: |%s|\n\n", get_next_line(fd));
+// 	printf("\nprint5: |%s|\n\n", get_next_line(fd));
+// 	printf("\nprint6: |%s|\n\n", get_next_line(fd));
+// }
