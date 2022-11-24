@@ -6,16 +6,15 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 13:27:57 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/14 15:31:58 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/24 11:44:49 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# include <fcntl.h>
-# include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
 # endif

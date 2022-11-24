@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:16:31 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/17 18:46:39 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/24 11:41:17 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_clean(char *stash)
 		j++;
 	new = malloc(sizeof(char) * (j + 1));
 	if (!new)
-		return (NULL);
+		return (free(stash), NULL);
 	j = 0;
 	while (stash[i + j])
 	{
@@ -79,11 +79,11 @@ char	*get_next_line(int fd)
 	static char	*stash;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
 	stash = ft_find_line(fd, stash);
 	if (!stash)
-		return (stash);
+		return (NULL);
 	line = ft_line(stash);
 	stash = ft_clean(stash);
 	return (line);
