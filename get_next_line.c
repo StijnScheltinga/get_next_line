@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:16:31 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/24 17:42:11 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:52:06 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*ft_clean(char *stash)
 	}
 	new[j] = '\0';
 	return (free(stash), new);
+    
 }
 
 char	*ft_line(char *stash)

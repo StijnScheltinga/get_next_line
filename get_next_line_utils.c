@@ -6,7 +6,7 @@
 /*   By: sschelti <sschelti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 13:32:55 by stijn             #+#    #+#             */
-/*   Updated: 2022/11/24 16:53:46 by sschelti         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:51:57 by sschelti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s1)
 		free(s1);
 	return (join);
+
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
